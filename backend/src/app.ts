@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import formRoutes from './routes/formRoutes';
 
 const app = express();
 
@@ -8,8 +9,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Backend is working!');
-});
+// Routes
+app.use('/api', formRoutes);
 
 export default app;
