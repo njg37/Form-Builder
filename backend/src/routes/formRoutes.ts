@@ -59,4 +59,26 @@ router.delete(
   })
 );
 
+// Get preview of a form (can be used to show a specific form's details or fields)
+// Get preview of a form (assuming formId is passed as query param)
+router.get(
+  '/preview',
+  asyncHandler(async (req: Request, res: Response) => {
+    const { formId } = req.query;  // Assuming you're passing the formId in the query string
+
+    if (!formId) {
+      return res.status(400).json({ error: 'Form ID is required' });
+    }
+
+    const form = await Form.findByPk(formId as string);
+
+    if (!form) {
+      return res.status(404).json({ error: 'Form not found' });
+    }
+
+    res.json(form);  // Send form data back in response
+  })
+);
+
+
 export default router;
