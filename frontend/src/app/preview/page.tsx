@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { fetchForms, fetchFormPreview, createForm, updateForm, deleteForm } from '../../api/formApi';
-import { ClipLoader } from 'react-spinners'; // You can install react-spinners for loading animations
+import { ClipLoader } from 'react-spinners';
 
 interface Field {
   label: string;
@@ -55,6 +55,24 @@ const PreviewPage = () => {
     }
   };
 
+  // Add a new field dynamically
+  const addField = () => {
+    setFields([...fields, { label: '', type: '' }]);
+  };
+
+  // Update a field dynamically
+  const updateField = (index: number, key: keyof Field, value: string) => {
+    const updatedFields = fields.map((field, i) =>
+      i === index ? { ...field, [key]: value } : field
+    );
+    setFields(updatedFields);
+  };
+
+  // Remove a field dynamically
+  const removeField = (index: number) => {
+    setFields(fields.filter((_, i) => i !== index));
+  };
+
   // Create a new form
   const handleCreateForm = async () => {
     setLoading(true);
@@ -89,20 +107,21 @@ const PreviewPage = () => {
     }
   };
 
-  // Delete a form
-  const handleDeleteForm = async (formId: string) => {
-    if (!confirm('Are you sure you want to delete this form?')) return;
-    setLoading(true);
-    try {
-      await deleteForm(formId);
-      loadForms();
-    } catch (err) {
-      console.error('Error deleting form:', err);
-      setError('Failed to delete form. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Add this function in your component
+const handleDeleteForm = async (formId: string) => {
+  setLoading(true);
+  try {
+    await deleteForm(formId); // Assuming `deleteForm` is an imported API function
+    setFormPreview(null);
+    loadForms(); // Reload forms to update the list after deletion
+  } catch (err) {
+    console.error('Error deleting form:', err);
+    setError('Failed to delete form. Please try again later.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     loadForms();
@@ -122,7 +141,6 @@ const PreviewPage = () => {
         </div>
       )}
 
-      {/* Form Management Buttons */}
       {!loading && !error && (
         <div className="flex justify-between mb-6">
           <button
@@ -145,7 +163,6 @@ const PreviewPage = () => {
               if (id) loadFormPreview(id);
             }}
             className="border p-3 w-full text-lg"
-            disabled={loading}
           >
             <option value="">Choose a form</option>
             {forms.map((form) => (
@@ -157,7 +174,6 @@ const PreviewPage = () => {
         </div>
       )}
 
-      {/* Form Preview */}
       {formPreview && (
         <div className="border p-4 rounded-lg shadow-lg bg-gray-50 mb-6">
           <h2 className="text-2xl font-semibold mb-4">{formPreview.name}</h2>
@@ -206,18 +222,53 @@ const PreviewPage = () => {
               onChange={(e) => setFormName(e.target.value)}
               className="border p-3 w-full mb-4"
             />
+            {fields.map((field, index) => (
+              <div key={index} className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Field Label"
+                  value={field.label}
+                  onChange={(e) => updateField(index, 'label', e.target.value)}
+                  className="border p-3 w-full mb-2"
+                />
+                <select
+                  value={field.type}
+                  onChange={(e) => updateField(index, 'type', e.target.value)}
+                  className="border p-3 w-full"
+                >
+                  <option value="">Choose Type</option>
+                  <option value="text">Text</option>
+                  <option value="number">Number</option>
+                  <option value="email">Email</option>
+                </select>
+                <button
+                  className="bg-red-500 text-white px-2 py-1 rounded-md mt-2"
+                  onClick={() => removeField(index)}
+                >
+                  Remove Field
+                </button>
+              </div>
+            ))}
             <button
               className="bg-green-500 text-white px-4 py-2 rounded-md"
-              onClick={handleCreateForm}
+              onClick={addField}
             >
-              Save
+              Add Field
             </button>
-            <button
-              className="bg-gray-500 text-white px-4 py-2 rounded-md ml-4"
-              onClick={() => setShowCreate(false)}
-            >
-              Cancel
-            </button>
+            <div className="mt-4">
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                onClick={handleCreateForm}
+              >
+                Save
+              </button>
+              <button
+                className="bg-gray-500 text-white px-4 py-2 rounded-md ml-4"
+                onClick={() => setShowCreate(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -234,23 +285,59 @@ const PreviewPage = () => {
               onChange={(e) => setFormName(e.target.value)}
               className="border p-3 w-full mb-4"
             />
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded-md"
-              onClick={handleUpdateForm}
-            >
-              Save
-            </button>
-            <button
-              className="bg-gray-500 text-white px-4 py-2 rounded-md ml-4"
-              onClick={() => setShowUpdate(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default PreviewPage;
+            {fields.map((field, index) => (
+                            <div key={index} className="mb-4">
+                            <input
+                              type="text"
+                              placeholder="Field Label"
+                              value={field.label}
+                              onChange={(e) => updateField(index, 'label', e.target.value)}
+                              className="border p-3 w-full mb-2"
+                            />
+                            <select
+                              value={field.type}
+                              onChange={(e) => updateField(index, 'type', e.target.value)}
+                              className="border p-3 w-full"
+                            >
+                              <option value="">Choose Type</option>
+                              <option value="text">Text</option>
+                              <option value="number">Number</option>
+                              <option value="email">Email</option>
+                            </select>
+                            <button
+                              className="bg-red-500 text-white px-2 py-1 rounded-md mt-2"
+                              onClick={() => removeField(index)}
+                            >
+                              Remove Field
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          className="bg-green-500 text-white px-4 py-2 rounded-md"
+                          onClick={addField}
+                        >
+                          Add Field
+                        </button>
+                        <div className="mt-4">
+                          <button
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                            onClick={handleUpdateForm}
+                          >
+                            Update
+                          </button>
+                          <button
+                            className="bg-gray-500 text-white px-4 py-2 rounded-md ml-4"
+                            onClick={() => setShowUpdate(false)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            };
+            
+            export default PreviewPage;
+            
