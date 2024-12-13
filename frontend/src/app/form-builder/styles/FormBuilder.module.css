@@ -1,0 +1,189 @@
+/* FormBuilder.module.css */
+
+/* General Styling */
+.builderContainer {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #89f7fe, #66a6ff);
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1.form-header {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+h2.form-header {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+h3.form-header {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #66a6ff;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    border-color: #3c92d2;
+    outline: none;
+}
+
+.button-style {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 5px;
+}
+
+.createButton {
+    background-color: #66a6ff;
+    color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.createButton:hover {
+    background-color: #3c92d2;
+    transform: scale(1.05);
+}
+
+.doneButton {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.doneButton:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+}
+
+.cancelButton {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.cancelButton:hover {
+    background-color: #c82333;
+    transform: translateY(-3px);
+}
+
+.editButton {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+.editButton:hover {
+    background-color: #e0a800;
+}
+
+.deleteButton {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.deleteButton:hover {
+    background-color: #c82333;
+}
+
+.optionsContainer {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.fieldOption {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 2px dashed #66a6ff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: grab;
+    text-align: center;
+    font-weight: bold;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.fieldOption:hover {
+    transform: translateY(-5px);
+    background-color: #e2e6ea;
+}
+
+.formCanvas {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #66a6ff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 200px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.formCanvas:hover {
+    background-color: #f4f9ff;
+}
+
+.formField {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formField label {
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.editFieldContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formContainer {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    transition: transform 0.3s;
+}
+
+.formContainer:hover {
+    transform: translateY(-5px);
+}
+
+.formHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
